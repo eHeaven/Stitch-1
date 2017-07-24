@@ -1,0 +1,15 @@
+Hello eku here,
+
+First I'd like to say that Stitch is not my creation. In fact the only thing I've
+done is start it again.
+
+Stitch was originally created by nathanlopez on January 5th 2017. Since then Stitch
+had 18 commits pushed to it and has not been updated, edited, assuming looked at,
+or anything. Well I like this idea, and I think it's pretty fucking sweet. So I want
+to continue the development. Stitch continuation will be moved to
+https://github.com/ekultek/Stitch.git if you would like more updates, more edits,
+quicker responses for it, and so forth, go there. To see the original Stitch,
+go here https://github.com/nathanlopez/Stitch.
+
+Thanks guys.
+ - Eku.
