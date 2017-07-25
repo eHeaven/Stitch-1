@@ -1,4 +1,5 @@
 # DISCLAIMER
+
 **Stitch is for education/research purposes only. The author takes NO responsibility and/or liability for how you choose to use any of the tools/source code/any files provided.
  The author and anyone affiliated with will not be liable for any losses and/or damages in connection with use of ANY files provided with Stitch.
  By using Stitch or any files included, you understand that you are AGREEING TO USE AT YOUR OWN RISK. Once again Stitch and ALL files included are for EDUCATION and/or RESEARCH purposes ONLY.
@@ -6,12 +7,15 @@
 
 
 # About Stitch
+
 A Cross Platform Python Remote Administration Tool:
 
 This is a cross platform python framework which allows you to build custom payloads for Windows, Mac OSX and Linux as well. You are able to select whether the payload binds to a specific IP and port, listens for a connection on a port, option to send an email of system info when the system boots, and option to start keylogger on boot. Payloads created can only run on the OS that they were created on.
 
 ## Features
+
 ### Cross Platform Support
+
 - Command and file auto-completion
 - Antivirus detection 
 - Able to turn off/on display monitors
@@ -28,6 +32,7 @@ This is a cross platform python framework which allows you to build custom paylo
 - Payloads' properties are "disguised" as other known programs
 
 ### Windows Specific
+
 - Display a user/password dialog box to obtain user password
 - Dump passwords saved via Chrome
 - Clear the System, Security, and Application logs
@@ -51,28 +56,27 @@ This is a cross platform python framework which allows you to build custom paylo
 - Webcam snapshots? (untested on Linux)
 
 ## Implemented Transports
+
 All communication between the host and target is AES encrypted. Every Stitch program generates an AES key which is then put into all payloads. To access a payload the AES keys must match. To connect from a different system running Stitch you must add the key by using the showkey command from the original system and the addkey command on the new system. 
 
 ## Implemented Payload Installers
+
 The "stitchgen" command gives the user the option to create [NSIS](http://nsis.sourceforge.net/Main_Page) installers on Windows and [Makeself](http://stephanepeter.com/makeself/) installers on posix machines. For Windows, the installer packages the payload and an elevation exe ,which prevents the firewall prompt and adds persistence, and places the payload on the system. For Mac OSX and Linux, the installer places the payload and attempts to add persistence. To create NSIS installers you must [download](http://nsis.sourceforge.net/Download) and install NSIS. 
 
 ## Wiki
 * [Crash Course of Stitch](https://github.com/nathanlopez/Stitch/wiki/Crash-Course)
 
 ## Requirements
+
 - [Python 2.7](https://www.python.org/downloads/)
 
-For easy installation run the following command that corresponds to your OS:
-```
-# for Windows
-pip install -r win_requirements.txt
+To install Stitch please do the following:
 
-# for Mac OSX
-pip install -r osx_requirements.txt
+ - `git clone https://github.com/ekultek/stitch.git`
+ - `cd YOUR-DIR/Stitch`
+ - `python main.py`
 
-# for Linux
-pip install -r lnx_requirements.txt
-```
+This should propagate your operating system and install the dependencies needed
 
 - [Pycrypto](https://pypi.python.org/pypi/pycrypto)
 - [Requests](http://docs.python-requests.org/en/master/)
@@ -80,13 +84,16 @@ pip install -r lnx_requirements.txt
 - [PIL](https://pypi.python.org/pypi/PIL)
 
 ### Windows Specific
+
 - [Py2exe](http://www.py2exe.org/)
 - [pywin32](https://sourceforge.net/projects/pywin32/)
 
 ### Mac OSX Specific
+
 - [PyObjC](https://pythonhosted.org/pyobjc/)
 
 ### Mac OSX/Linux Specific
+
 - [PyInstaller](http://www.pyinstaller.org/)
 - [pexpect](https://pexpect.readthedocs.io/en/stable/)
 
@@ -98,9 +105,11 @@ or
 ```
 
 ## Motivation
+
 My motivation behind this was to advance my knowledge of python, hacking, and just to see what I could accomplish. Was somewhat discouraged and almost abandoned this project when I found the amazing work done by [n1nj4sec](https://github.com/n1nj4sec/pupy), but still decided to put this up since I had already come so far. 
 
 ## Other open-source Python RATs for Reference
+
 * [vesche/basicRAT](https://github.com/vesche/basicRAT)
 * [n1nj4sec/pupy](https://github.com/n1nj4sec/pupy)
 
@@ -113,4 +122,4 @@ My motivation behind this was to advance my knowledge of python, hacking, and ju
 
 ## License
 
-See [LICENSE](/LICENSE)
+See [LICENSE](/docs/LICENSE)
