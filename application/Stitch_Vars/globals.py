@@ -8,7 +8,7 @@ import random
 import base64
 import logging
 
-version = "1.0.2.2"
+version = "1.0.3.3"
 version_string = "\033[93mdev\033[0m" if version.count(".") >= 2 else "\033[94mstable\033[0m"
 clone = "https://github.com/ekultek/stitch.git"
 banner = """\033[95m
