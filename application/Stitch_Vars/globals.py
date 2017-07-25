@@ -9,7 +9,7 @@ import random
 import base64
 import logging
 
-version = "1.0.3.4"
+version = "1.0.3.5"
 if version.count(".") >= 2:
     version_string = "\033[93mdev\033[0m"
 else:
