@@ -1,0 +1,6 @@
+def reg_exists(path):
+    try:
+        key = _winreg.OpenKey(_winreg.HKEY_LOCAL_MACHINE,path)
+        return True
+    except:
+        return False

