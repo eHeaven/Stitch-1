@@ -4,12 +4,16 @@
 import os
 import sys
 import string
+import getpass
 import random
 import base64
 import logging
 
-version = "1.0.3.3"
-version_string = "\033[93mdev\033[0m" if version.count(".") >= 2 else "\033[94mstable\033[0m"
+version = "1.0.3.4"
+if version.count(".") >= 2:
+    version_string = "\033[93mdev\033[0m"
+else:
+    version_string = "\033[94mstable\033[0m"
 clone = "https://github.com/ekultek/stitch.git"
 banner = """\033[95m
  ____  ____  __  ____  ___  _  _
@@ -20,7 +24,7 @@ v{}({})
 {}
 """.format(version, version_string, clone)
 
-st_tag = "[Stitch]"
+st_tag = "{}@Stitch#".format(getpass.getuser())
 st_eof = base64.b64decode('c3RpdGNoNjI2aGN0aXRz')
 st_complete = base64.b64decode('c3RpdGNoLjpjb21wbGV0ZTouY2h0aXRz')
 
