@@ -1,3 +1,10 @@
+Version 1.0.3.4
+  - Edited the payload generations, payloads are now in text files under "/scripts"
+  - Created a way to get the payload main path after cd'ing directories
+  - Edited the client finding function to a singular function
+  - Edited the README a little
+  - Bumped version number
+
 Version 1.0.3.3
   - Edited the linux installer and patched the installation, will install successfully now
   - Bumped version number
