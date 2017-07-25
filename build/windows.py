@@ -13,9 +13,9 @@ def _install_py2exe(verbose=False, dist_url="http://sourceforge.net/projects/py2
      a checksum checker later, but for now i just wanna get this thing launched and
      fix the installation issues with it.
     """
+    if verbose: print("\033[93m[d]\033[0m downloading package from: '{}'..".format(dist_url))
     pip_cmd = ["pip", "install", dist_url]
-    if verbose:
-        print("[d] running command: '{}'..".format(' '.join(pip_cmd)))
+    if verbose: print("\033[93m[d]\033[0m running command: '{}'..".format(' '.join(pip_cmd)))
     return subprocess.call(pip_cmd)
 
 
@@ -24,9 +24,9 @@ def _install_pil(verbose=False, dist_url="https://dist.plone.org/thirdparty/", p
      install PIL from the dist website, this once again idk how safe it is, but it's
      going to work and that's what we're gonna do.
     """
+    if verbose: print("\033[93m[d]\033[0m downloading package '{}' from '{}'..".format(pack_name, dist_url))
     pip_cmd = ["pip", "install", "--no-index", "-f", dist_url, "-U", pack_name]
-    if verbose:
-        print("[d] running command: '{}'..".format(' '.join(pip_cmd)))
+    if verbose: print("\033[93m[d]\033[0m running command: '{}'..".format(' '.join(pip_cmd)))
     return subprocess.call(pip_cmd)
 
 
@@ -37,8 +37,7 @@ def _install_pyhook(verbose=False, whl_start_dir=os.listdir("{}/build/reqs/whls"
     """
     all_whls = set()
     os_arc = _check_arc()
-    if verbose:
-        print("[d] searching for .whl files that are compatible with {} OS..".format(os_arc[0]))
+    if verbose: print("\033[93m[d]\033[0m searching for .whl files that are compatible with {} OS..".format(os_arc[0]))
     for whl in whl_start_dir:
         if os_arc == "32":
             if "-win32.whl" in whl:
@@ -49,8 +48,7 @@ def _install_pyhook(verbose=False, whl_start_dir=os.listdir("{}/build/reqs/whls"
     for whl in list(all_whls):
         whl_path = "{}/build/reqs/whls/".format(os.getcwd()) + whl
         pip_cmd = ["pip", "install", "--use-wheel", "--no-index", whl_path]
-        if verbose:
-            print("[d] running command: '{}'..".format(' '.join(pip_cmd)))
+        if verbose: print("\033[93m[d]\033[0m running command: '{}'..".format(' '.join(pip_cmd)))
         subprocess.call(pip_cmd)
 
 
@@ -66,8 +64,7 @@ def _install_pywin(verbose=False, dist_url="https://sourceforge.net/projects/pyw
     else:
         dist_url = dist_url.format(exe_filenames[0])
     pip_cmd = ["pip" "install", dist_url]
-    if verbose:
-        print("[d] running command: '{}'..".format(' '.join(pip_cmd)))
+    if verbose: print("\033[93m[d]\033[0m running command: '{}'..".format(' '.join(pip_cmd)))
     return subprocess.call(pip_cmd)
 
 
@@ -76,8 +73,7 @@ def _install_other(verbose=False, reqs_file_path="{}/build/reqs/win_requirements
      install all other dependencies.
     """
     pip_cmd = ["pip", "install", "-r", reqs_file_path.format(os.getcwd())]
-    if verbose:
-        print("[d] running command: '{}'..".format(' '.join(pip_cmd)))
+    if verbose: print("\033[93m[d]\033[0m running command: '{}'..".format(' '.join(pip_cmd)))
     return subprocess.call(pip_cmd)
 
 
@@ -87,6 +83,6 @@ def win_main(verbose=False):
         _install_pil, _install_py2exe,
         _install_other
     ]
-    print("[i] installing Windows requirements..")
+    print("\033[36m[i]\033[0m installing Windows packages..")
     for installation in __funcs__:
         installation(verbose=verbose)
