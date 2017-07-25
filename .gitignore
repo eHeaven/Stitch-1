@@ -1,0 +1,12 @@
+*.pyc
+.idea/
+Downloads/
+Logs/
+Payloads/
+Temp/
+Uploads/
+var/configuration/build/
+var/configuration/requirements.py
+var/configuration/st_*.py
+var/configuration/st_*.spec
+application/Stitch_Vars/st_aes**.*
