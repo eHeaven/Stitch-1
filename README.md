@@ -45,11 +45,13 @@ This is a cross platform python framework which allows you to build custom paylo
 - View summary of registry values such as DEP
 
 ### Mac OSX Specific
+
 - Display a user/password dialog box to obtain user password
 - Change the login text at the user's login screen
 - Webcam snapshots
 
 ### Mac OSX/Linux Specific
+
 - SSH from the target machine into another host
 - Run sudo commands
 - Attempt to bruteforce the user's password using the passwords list found in Tools/
@@ -64,6 +66,7 @@ All communication between the host and target is AES encrypted. Every Stitch pro
 The "stitchgen" command gives the user the option to create [NSIS](http://nsis.sourceforge.net/Main_Page) installers on Windows and [Makeself](http://stephanepeter.com/makeself/) installers on posix machines. For Windows, the installer packages the payload and an elevation exe ,which prevents the firewall prompt and adds persistence, and places the payload on the system. For Mac OSX and Linux, the installer places the payload and attempts to add persistence. To create NSIS installers you must [download](http://nsis.sourceforge.net/Download) and install NSIS. 
 
 ## Wiki
+
 * [Crash Course of Stitch](https://github.com/nathanlopez/Stitch/wiki/Crash-Course)
 
 ## Requirements
