@@ -157,7 +157,7 @@ class stitch_server(cmd.Cmd):
 
     def do_cat(self, line):
         if line:
-            if windows_client():
+            if find_client() == 2:
                 cmd = 'more {}'.format(line)
             else:
                 cmd = 'cat {}'.format(line)
@@ -199,7 +199,7 @@ class stitch_server(cmd.Cmd):
         display_banner()
 
     def do_ipconfig(self, line):
-        if windows_client():
+        if find_client() == 2:
             cmd = 'ipconfig {}'.format(line)
         else:
             cmd = 'ifconfig {}'.format(line)
@@ -209,16 +209,16 @@ class stitch_server(cmd.Cmd):
         self.do_ipconfig(line)
 
     def do_lsmod(self, line):
-        if windows_client():
+        if find_client() == 2:
             cmd = 'driverquery {}'.format(line)
-        elif linux_client():
+        elif find_client() == 0:
             cmd = 'lsmod {}'.format(line)
         else:
             cmd = 'kextstat {}'.format(line)
         st_print(run_command(cmd))
 
     def do_ls(self, line):
-        if windows_client():
+        if find_client() == 2:
             cmd = 'dir /a {}'.format(line)
         else:
             cmd = 'ls -alh {}'.format(line)
@@ -260,16 +260,16 @@ class stitch_server(cmd.Cmd):
         st_print('{}\n'.format(os.getcwd()))
 
     def do_ps(self, line):
-        if windows_client():
+        if find_client() == 2:
             cmd = 'tasklist {}'.format(line)
         else:
             cmd = 'ps {}'.format(line)
         st_print(run_command(cmd))
 
     def do_start(self, line):
-        if windows_client():
+        if find_client() == 2:
             cmd = 'start {}'.format(line)
-        elif osx_client() and not line:
+        elif find_client() == 1 and not line:
             cmd = 'open -a Terminal .'
         else:
             cmd = './{} &'.format(line)
@@ -318,13 +318,13 @@ class stitch_server(cmd.Cmd):
                             st_print('[+] Connection successful from {}:{}'.format(self.target, self.port))
                             target_os = self.receive(self.conn)
                             if no_error(target_os):
-                                if windows_client(target_os):
+                                if find_client(system=target_os) == 2:
                                     st_print('[*] Starting Windows Shell...\n')
                                     stitch_winshell.start_shell(self.target, self.listen_port, self.conn, self.aes_enc)
-                                elif linux_client(target_os):
+                                elif find_client(system=target_os) == 0:
                                     st_print('[*] Starting Linux Shell...\n')
                                     stitch_lnxshell.start_shell(self.target, self.listen_port, self.conn, self.aes_enc)
-                                elif osx_client(target_os):
+                                elif find_client(system=target_os) == 1:
                                     st_print('[*] Starting Mac OS X Shell...\n')
                                     stitch_osxshell.start_shell(self.target, self.listen_port, self.conn, self.aes_enc)
                                 else:
@@ -393,13 +393,13 @@ class stitch_server(cmd.Cmd):
                         st_print('[+] Connection successful.')
                         target_os = self.receive(self.client)
                         if no_error(target_os):
-                            if windows_client(target_os):
+                            if find_client(system=target_os) == 2:
                                 st_print('[*] Starting Windows Shell...\n')
                                 stitch_winshell.start_shell(self.target, self.port, self.client, self.aes_enc)
-                            elif linux_client(target_os):
+                            elif find_client(system=target_os) == 0:
                                 st_print('[*] Starting Linux Shell...\n')
                                 stitch_lnxshell.start_shell(self.target, self.port, self.client, self.aes_enc)
-                            elif osx_client(target_os):
+                            elif find_client(target_os) == 1:
                                 st_print('[*] Starting OSX Shell...\n')
                                 stitch_osxshell.start_shell(self.target, self.port, self.client, self.aes_enc)
                             else:
@@ -426,7 +426,7 @@ class stitch_server(cmd.Cmd):
                 self.client.close()
 
     def do_touch(self, line):
-        if windows_client():
+        if find_client() == 2:
             cmd = 'if not exist {} type NUL > {}'.format(line, line)
         else:
             cmd = 'touch {}'.format(line)

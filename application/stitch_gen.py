@@ -10,7 +10,7 @@ from Stitch_Vars.makeself import *
 from Stitch_Vars.payload_code import *
 from Stitch_Vars.payload_setup import *
 
-if windows_client():
+if find_client() == 2:
     import py2exe
     from distutils.core import setup
 
@@ -51,11 +51,11 @@ def assemble_stitch():
 
     required_imports = get_requirements()
 
-    if windows_client():
+    if find_client() == 2:
         utils_imports += win_util_imports()
         required_imports += win_util_imports()
         utils_code += win_reg_exists()
-    elif osx_client():
+    elif find_client() == 1:
         utils_imports += osx_util_imports()
         required_imports += osx_util_imports()
     else:
@@ -145,7 +145,7 @@ def posix_gen_payload(name, dist_dir, icon=None):
     #
     # add the osx/linux pyinstaller spec information
     #
-    if osx_client():
+    if find_client() == 1:
         st_spec = '''
 # -*- mode: python -*-
 
@@ -239,7 +239,7 @@ def run_exe_gen():
         # TODO Make OS specific builds windows/linux/os x
         st_print("[*] Starting exe generation...\n")
         cur_dir = os.getcwd()
-        if windows_client():
+        if find_client() == 2:
             os.chdir(configuration_path)
             win_progress = progress_bar(len(win_payload_list))
             win_progress.display()
@@ -280,7 +280,7 @@ def run_exe_gen():
                 else:
                     st_print('[!] "C:\\Program Files (x86)\\NSIS\\makensis.exe" does not exist.')
                     st_print('[*] To install NSIS go to: "http://nsis.sourceforge.net/Download"')
-        elif osx_client():
+        elif find_client() == 1:
             osx_progress = progress_bar(len(osx_payload_list))
             osx_progress.display()
             for alias in osx_payload_list:
@@ -317,7 +317,7 @@ def run_exe_gen():
 
         os.chdir(cur_dir)
         if os.path.exists(os.path.join(conf_dir, 'w9xpopen.exe')):
-            if windows_client():
+            if find_client() == 2:
                 run_command('del {}'.format(os.path.join(conf_dir, 'w9xpopen.exe')))
             else:
                 run_command('rm -f {}'.format(os.path.join(conf_dir, 'w9xpopen.exe')))

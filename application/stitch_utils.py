@@ -95,7 +95,8 @@ def no_error(cmd_output):
 def encrypt(raw, aes_key=secret):
     iv = Random.new().read(AES.block_size)
     cipher = AES.new(aes_key, AES.MODE_CFB, iv)
-    return (base64.b64encode(iv + cipher.encrypt(raw)))
+    cipher_stream = iv + cipher.encrypt(raw)
+    return base64.b64encode(cipher_stream)
 
 
 def decrypt(enc, aes_key=secret):
@@ -148,25 +149,16 @@ def add_aes(key):
                 aes_lib.read(st_aes_lib)
 
 
-def windows_client(system=sys.platform):
-    if system.startswith('win'):
-        return True
+def find_client(system=sys.platform):
+    sys_spec = str(system).lower()
+    if sys_spec.startswith("linux"):
+        return 0
+    elif sys_spec.startswith("darwin"):
+        return 1
+    elif sys_spec.startswith("win"):
+        return 2
     else:
-        return False
-
-
-def osx_client(system=sys.platform):
-    if system.startswith('darwin'):
-        return True
-    else:
-        return False
-
-
-def linux_client(system=sys.platform):
-    if system.startswith('linux'):
-        return True
-    else:
-        return False
+        return -1
 
 
 def st_print(text):
@@ -195,33 +187,33 @@ def st_print(text):
 
 
 def print_yellow(string):
-    if windows_client(): reinit()
+    if find_client() == 2: reinit()
     print (Fore.YELLOW + Style.BRIGHT + string + Style.RESET_ALL)
-    if windows_client(): deinit()
+    if find_client() == 2: deinit()
 
 
 def print_blue(string):
-    if windows_client(): reinit()
+    if find_client() == 2: reinit()
     print (Fore.BLUE + Style.BRIGHT + string + Style.RESET_ALL)
-    if windows_client(): deinit()
+    if find_client() == 2: deinit()
 
 
 def print_cyan(string):
-    if windows_client(): reinit()
+    if find_client() == 2: reinit()
     print (Fore.CYAN + Style.BRIGHT + string + Style.RESET_ALL)
-    if windows_client(): deinit()
+    if find_client() == 2: deinit()
 
 
 def print_green(string):
-    if windows_client(): reinit()
+    if find_client() == 2: reinit()
     print (Fore.GREEN + Style.BRIGHT + string + Style.RESET_ALL)
-    if windows_client(): deinit()
+    if find_client() == 2: deinit()
 
 
 def print_red(string):
-    if windows_client(): reinit()
+    if find_client() == 2: reinit()
     print (Fore.RED + Style.BRIGHT + string + Style.RESET_ALL)
-    if windows_client(): deinit()
+    if find_client() == 2: deinit()
 
 
 def get_cwd():
@@ -236,7 +228,7 @@ def display_banner():
 
 
 def clear_screen():
-    if windows_client():
+    if find_client() == 2:
         os.system("cls")
     else:
         os.system("clear")
@@ -244,7 +236,7 @@ def clear_screen():
 
 def check_int(val):
     try:
-        is_int = int(val)
+        int(val)
         return True
     except ValueError:
         print "{} is not a valid number.".format(val)
@@ -273,8 +265,8 @@ def find_patterns(text, line, begidx, endidx, search):
     return f
 
 
-def find_path(text, line, begidx, endidx, \
-              dir_only=False, files_only=False, exe_only=False, \
+def find_path(text, line, begidx, endidx,
+              dir_only=False, files_only=False, exe_only=False,
               py_only=False, uploads=False, all_dir=False):
     cur_dir = os.getcwd()
     before_arg = line.rfind(" ", 0, begidx)

