@@ -1,3 +1,9 @@
+Version 1.0.3.5
+  - Minor edits to build for verbosity
+  - Created issue template
+  - Added verbosity prompt to installation
+  - Bumped version number
+
 Version 1.0.3.4
   - Edited the payload generations, payloads are now in text files under "/scripts"
   - Created a way to get the payload main path after cd'ing directories
