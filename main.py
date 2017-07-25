@@ -15,9 +15,14 @@ except ImportError:
     )
 
     print(
-        "[F] the application requires packages that have not been installed yet, "
+        "\033[31m[F]\033[0m the application requires packages that have not been installed yet, "
         "running the setup for the installation.."
     )
+    verbosity = raw_input("Would you like to run verbosely (more output)[y/N]: ")
+    if verbosity.lower().startswith("y"):
+        verbose_output = True
+    else:
+        verbose_output = False
 
     def _find_os(system=platform.platform()):
         if "Linux" in system:
@@ -33,9 +38,6 @@ except ImportError:
         elif system == "windows":
             windows.win_main(verbose=verbose)
         else:
-            osx.osx_main()
+            osx.osx_main(verbose=verbose)
 
-    if "verbose" in sys.argv:
-        _launch_install_scripts(_find_os(), verbose=True)
-    else:
-        _launch_install_scripts(_find_os())
+    _launch_install_scripts(system=_find_os(), verbose=verbose_output)
