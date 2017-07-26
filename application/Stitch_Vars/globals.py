@@ -9,7 +9,7 @@ import random
 import base64
 import logging
 
-version = "1.0.3.5"
+version = "1.0.4.6"
 if version.count(".") >= 2:
     version_string = "\033[93mdev\033[0m"
 else:
@@ -95,3 +95,10 @@ file_handler = logging.FileHandler(stitch_log, 'a')
 formatter = logging.Formatter('[%(asctime)s] %(levelname)s: %(message)s', datefmt='%m/%d/%Y %I:%M:%S %p')
 file_handler.setFormatter(formatter)
 st_log.addHandler(file_handler)
+
+
+def handle_exception_clause(ex, **kwargs):
+    """ Handle an exception """
+    template = "an error occurred during runtime of type: {0}\nArguments: {1!r}"
+    message = template.format(type(ex).__name__, ex.args)
+    return message
