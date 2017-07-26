@@ -5,6 +5,7 @@ Logs/
 Payloads/
 Temp/
 Uploads/
+configuration/build
 var/configuration/build/
 var/configuration/requirements.py
 var/configuration/st_*.py
