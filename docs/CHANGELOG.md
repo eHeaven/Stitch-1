@@ -1,3 +1,11 @@
+Version 1.0.4.6
+  - Edited the help and moved it into a class, that way it will be more idiomatic
+  - Created a HelpMenu and HelpSpecifics class, HelpMenu has the help section of the commands HelpSpecifics has the usage section of the commands
+  - Edited each shell to show the new changes
+  - Created a function to grab exception specifics
+  - Minor tweak to the payload generators
+  - Bumped the version number
+
 Version 1.0.3.5
   - Minor edits to build for verbosity
   - Created issue template
