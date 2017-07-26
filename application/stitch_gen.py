@@ -118,21 +118,29 @@ def win_gen_payload(dist_dir, icon, dest, cpyr, cmpny, ver, name, desc):
     sys.argv.append('py2exe')
 
     setup(
-        options={'py2exe': {'bundle_files': 1,
-                            'compressed': True,
-                            'ascii': False,
-                            'dll_excludes': ['msvcr71.dll', "tcl85.dll", "tk85.dll", "QtCore4.dll", "QtGui4.dll",
-                                             "IPHLPAPI.DLL", "NSI.dll", "WINNSI.DLL", "WTSAPI32.dll"],
-                            'dist_dir': dist_dir,
-                            'excludes': ['PyQt4', 'PyQt5', 'Tkconstants', 'Tkinter']}},
+        options={
+            'py2exe':
+                {
+                    'bundle_files': 1,
+                    'compressed': True,
+                    'ascii': False,
+                    'dll_excludes': [
+                        'msvcr71.dll', "tcl85.dll", "tk85.dll", "QtCore4.dll", "QtGui4.dll",
+                        "IPHLPAPI.DLL", "NSI.dll", "WINNSI.DLL", "WTSAPI32.dll"
+                    ],
+                    'dist_dir': dist_dir,
+                    'excludes': [
+                        'PyQt4', 'PyQt5', 'Tkconstants', 'Tkinter'
+                    ]
+                }
+        },
 
-        windows=[{
-            "script": 'st_main.py',
-            "icon_resources": [(1, icon)],
-            "dest_base": dest,
-            'copyright': cpyr,
-            'company_name': cmpny,
-        }],
+        windows=[
+            {
+                "script": 'st_main.py', "icon_resources": [(1, icon)],
+                "dest_base": dest, 'copyright': cpyr, 'company_name': cmpny,
+            }
+        ],
         zipfile=None,
         version=ver,
         name=name,
