@@ -3,9 +3,10 @@
 # Stitch is under the MIT license. See the LICENSE file at the root of the project for the detailed license terms.
 
 try:
-    from application.stitch_cmd import *
+    from application.Stitch_Vars.globals import handle_exception_clause
+    from application.stitch_cmd import server_main
     server_main()
-except ImportError:
+except ImportError:  # if this happens we're gonna try and reinstall the dependencies.
     import platform
     import sys
     from build import (
@@ -41,3 +42,5 @@ except ImportError:
             osx.osx_main(verbose=verbose)
 
     _launch_install_scripts(system=_find_os(), verbose=verbose_output)
+except Exception as ex:  # if this happens we'll go ahead and grab some information from it
+    raise RuntimeError(handle_exception_clause(ex))
