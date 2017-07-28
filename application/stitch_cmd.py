@@ -563,8 +563,5 @@ def server_main():
     except KeyboardInterrupt:
         st_log.info("User aborted server..")
     except Exception as e:
-        template = "unexpected exception has occured of type {0}. Arguments:\n{1!r}"
-        message = template.format(type(e).__name__, e.args)
-        st_log.info("Unexpected exception has occurred: {}. Details: {}".format(e, message))
-        st_print("[!] {}\n".format(message))
+        handle_exception_clause(e)
     st.do_exit()

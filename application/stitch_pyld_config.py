@@ -5,7 +5,8 @@
 from stitch_utils import *
 
 
-class stitch_ini():
+class StitchInit(object):
+
     def __init__(self):
         self.Config = ConfigParser.ConfigParser()
         self.Config.read(st_config)
@@ -113,7 +114,7 @@ def create_new_config():
     elif st_klboot.startswith('n'):
         KEYLOGGER_BOOT = False
 
-    stini = stitch_ini()
+    stini = StitchInit()
     stini.set_value('BIND', BIND)
     stini.set_value('BHOST', BHOST)
     stini.set_value('BPORT', BPORT)
@@ -156,7 +157,7 @@ def get_conf_dir():
 
 
 def print_st_config():
-    stini = stitch_ini()
+    stini = StitchInit()
 
     BIND = stini.get_bool("BIND")
     BHOST = stini.get_value("BHOST")

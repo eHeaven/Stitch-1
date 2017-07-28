@@ -9,7 +9,7 @@ import random
 import base64
 import logging
 
-version = "1.0.4.6"
+version = "1.0.5.7"
 if version.count(".") >= 2:
     version_string = "\033[93mdev\033[0m"
 else:
@@ -99,6 +99,7 @@ st_log.addHandler(file_handler)
 
 def handle_exception_clause(ex, **kwargs):
     """ Handle an exception """
-    template = "an error occurred during runtime of type: {0}\nArguments: {1!r}"
+    template = ("an error occurred during runtime of type: {}"
+                "\nArguments: {}\n")
     message = template.format(type(ex).__name__, ex.args)
     return message

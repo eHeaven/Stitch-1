@@ -4,14 +4,17 @@
 import os
 import sys
 from st_aes import *
-from random import randint, choice
 from string import ascii_uppercase
+from random import (
+    randint,
+    choice
+)
 
-keylogger_paths = "{}/Stitch/application/scripts/keyloggers/{}"
-email_paths = "{}/Stitch/application/scripts/emails/{}"
-reqs_path = "{}/Stitch/application/scripts/reqs/{}"
-encrypt_paths = "{}/Stitch/application/scripts/encrypt/{}"
-proto_paths = "{}/Stitch/application/scripts/protos/{}"
+keylogger_paths = "{}/stitch/application/scripts/keyloggers/{}"
+email_paths = "{}/stitch/application/scripts/emails/{}"
+reqs_path = "{}/stitch/application/scripts/reqs/{}"
+encrypt_paths = "{}/stitch/application/scripts/encrypt/{}"
+proto_paths = "{}/stitch/application/scripts/protos/{}"
 main_directory_path = os.path.split(os.path.abspath(os.getcwd()))[0]
 st_obf = []
 for n in range(0, 10):

@@ -18,7 +18,7 @@ if find_client() == 2:
 def assemble_stitch():
     global utils_imports, utils_code
 
-    stini = stitch_ini()
+    stini = StitchInit()
     BIND = stini.get_bool("BIND")
     BHOST = stini.get_value("BHOST")
     BPORT = stini.get_value("BPORT")
