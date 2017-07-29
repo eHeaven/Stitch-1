@@ -12,3 +12,6 @@ var/configuration/st_*.py
 var/configuration/st_*.spec
 application/Stitch_Vars/st_aes**.*
 application/Stitch_Vars/*.ini
+configuration/st_*.py
+configuration/requirements.py
+configuration/st_*.spec
